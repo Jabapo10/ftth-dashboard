@@ -30,7 +30,7 @@ const ONTS = [
 ];
 
 // Rangos típicos de potencia óptica recibida (dBm) para PON en Huawei
-function signalQuality(rx, estado) {
+function signalQuality(rx: number, estado: string) {
   if (estado === "offline") return { label: "Sin señal", color: "text-slate-500", bar: 0 };
   if (rx >= -24) return { label: "Excelente", color: "text-cyan-400", bar: 100 };
   if (rx >= -27) return { label: "Aceptable", color: "text-amber-400", bar: 60 };
@@ -38,13 +38,13 @@ function signalQuality(rx, estado) {
 }
 
 // Color de fondo de la fila completa según el estado de la ONT
-function rowBackground(estado) {
+function rowBackground(estado: string) {
   if (estado === "online") return "bg-cyan-500/10 hover:bg-cyan-500/20";
   if (estado === "alarma") return "bg-amber-500/10 hover:bg-amber-500/20";
   return "bg-slate-700/30 hover:bg-slate-700/40";
 }
 
-function StatusIcon({ estado }) {
+function StatusIcon({ estado }: { estado: string }) {
   if (estado === "online") return <Wifi className="w-4 h-4 text-cyan-400" />;
   if (estado === "offline") return <WifiOff className="w-4 h-4 text-slate-500" />;
   return <AlertTriangle className="w-4 h-4 text-amber-400" />;
@@ -73,7 +73,6 @@ export default function FTTHDashboard() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-200 font-mono">
-      {/* Header */}
       <header className="border-b border-slate-500 px-6 py-5 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center">
@@ -91,7 +90,6 @@ export default function FTTHDashboard() {
       </header>
 
       <main className="px-6 py-6 max-w-6xl mx-auto space-y-6">
-        {/* Resumen */}
         <section className="grid grid-cols-2 md:grid-cols-4 gap-3">
           <SummaryCard label="Puertos PON activos" value={`${OLT_INFO.activePorts}/${OLT_INFO.totalPorts}`} icon={<Activity className="w-4 h-4" />} accent="text-slate-100" />
           <SummaryCard label="ONTs en línea" value={counts.online} icon={<Wifi className="w-4 h-4" />} accent="text-cyan-400" />
@@ -99,7 +97,6 @@ export default function FTTHDashboard() {
           <SummaryCard label="Fuera de línea" value={counts.offline} icon={<WifiOff className="w-4 h-4" />} accent="text-rose-500" />
         </section>
 
-        {/* Puertos PON */}
         <section>
           <h2 className="text-xs uppercase tracking-widest text-slate-500 mb-2">Puertos PON</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -127,7 +124,6 @@ export default function FTTHDashboard() {
           </div>
         </section>
 
-        {/* Tabla de ONTs */}
         <section>
           <div className="flex items-center justify-between mb-2 gap-3">
             <h2 className="text-xs uppercase tracking-widest text-slate-500">ONTs</h2>
@@ -198,7 +194,7 @@ export default function FTTHDashboard() {
   );
 }
 
-function SummaryCard({ label, value, icon, accent }) {
+function SummaryCard({ label, value, icon, accent }: { label: string; value: string | number; icon: React.ReactNode; accent: string }) {
   return (
     <div className="border border-slate-500 rounded-lg bg-slate-900/40 px-4 py-3">
       <div className="flex items-center justify-between mb-1">
